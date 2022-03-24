@@ -1,16 +1,22 @@
 const express = require('express');
-//const db = FILL_ME_IN
+const db = require('./db.js');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
 app.use(express.static(__dirname + '/../client/dist'));
 
 app.listen(port, (req, res) => {
   console.log(`Listening on port ${port}`);
-});``
+});
 
 app.get('/api/notes', (req, res) => {
-  //Write your route here!
+  new Promise((resolve, reject) => {
+    db.query('SELECT * FROM notes', (err, res) => {
+      if (err) { reject(err) }
+      else { resolve(res) }
+    })
+  })
+    .then(notes => { res.send(notes) });
 });

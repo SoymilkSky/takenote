@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Notes from './components/Notes.jsx';
 import AddNote from './components/AddNote.jsx'
 
@@ -11,6 +12,16 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.loadFromServer();
+  }
+
+  loadFromServer() {
+    axios.get('/api/notes')
+      .then(notes => this.setState({ notes: notes.data }))
+      .catch(err => console.log(err));
+  }
+
   changePage(page){
     this.setState({
       page: page
@@ -19,7 +30,7 @@ class App extends React.Component {
 
   pageRouter(){
     if(this.state.page === 'list'){
-      return <Notes />
+      return <Notes notes={this.state.notes}/>
     } else if (this.state.page === 'newNote'){
       return <AddNote/>
     }
