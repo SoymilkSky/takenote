@@ -36,8 +36,9 @@
 
 .note-input {
   margin-top: 2%;
-  height: 600px;
-  width: 70%;
+  height: 400px;
+  width: 60%;
+  resize: none;
 }
 .note-label {
   margin-top: .5%;

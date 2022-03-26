@@ -19,4 +19,24 @@ app.get('/api/notes', (req, res) => {
     })
   })
     .then(notes => { res.send(notes) });
+
+  app.post('/api/movies', (req, res) => {
+    new Promise((resolve, reject) => {
+      db.query("INSERT INTO notes VALUES(NULL, ?, ?, ?, ?, 'none')", req.body, (err, data) => {
+        if (err) { reject(err) }
+        else { resolve(data) }
+      })
+    })
+      .then(() => res.status(201).end());
+  })
+
+  app.patch('/api/movies', (req, res) => {
+    new Promise((resolve, reject) => {
+      db.query("UPDATE notes SET ?? = ? WHERE id = ?", req.body, (err, data) => {
+        if (err) { reject(err) }
+        else { resolve(data) }
+      })
+    })
+      .then(() => res.end())
+  })
 });
