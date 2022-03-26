@@ -10,6 +10,7 @@ class App extends React.Component {
       page: 'list',
       notes: []
     };
+    this.loadFromServer = this.loadFromServer.bind(this);
   }
 
   componentDidMount() {
