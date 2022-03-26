@@ -29,10 +29,10 @@ class App extends React.Component {
   }
 
   pageRouter(){
-    if(this.state.page === 'list'){
-      return <Notes notes={this.state.notes}/>
+    if (this.state.page === 'list') {
+      return <Notes notes={this.state.notes} reload={this.loadFromServer}/>
     } else if (this.state.page === 'newNote'){
-      return <AddNote/>
+      return <AddNote reload={this.loadFromServer}/>
     }
   }
 
@@ -62,7 +62,6 @@ class App extends React.Component {
         <div className="content">
           {this.pageRouter()}
         </div>
-
       </div>
     )
   }

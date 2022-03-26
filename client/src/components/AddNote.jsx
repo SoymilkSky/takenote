@@ -22,6 +22,7 @@ class AddNote extends React.Component {
     e.preventDefault();
     axios.post('/api/movies', [this.state.title, this.state.category, this.state.tagline, this.state.note])
       .then(() => console.log('successful note save'))
+      .then(() => this.props.reload())
       .catch(err => console.log(err))
   }
 
