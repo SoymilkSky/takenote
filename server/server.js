@@ -22,7 +22,7 @@ app.get('/api/notes', (req, res) => {
 
   app.post('/api/movies', (req, res) => {
     new Promise((resolve, reject) => {
-      db.query("INSERT INTO notes VALUES(NULL, ?, ?, ?, ?, 'none')", req.body, (err, data) => {
+      db.query("INSERT INTO notes VALUES(NULL, 0, ?, ?, ?, ?, 'none')", req.body, (err, data) => {
         if (err) { reject(err) }
         else { resolve(data) }
       })

@@ -16,22 +16,32 @@ class Note extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  onNoteClick() {
-    this.setState({ noteClicked: !this.state.noteClicked })
+  onNoteClick(e) {
+    this.setState({ noteClicked: !this.state.noteClicked }, () => {
+      if (this.state.noteClicked === true) {
+        axios.patch('/api/movies', ['notecount', this.props.note.notecount + 1, this.props.note.id])
+        .then(() => console.log(e.target.id, ' changed on the server'))
+        .then(() => this.props.reload())
+        .catch(err => console.log(err));
+      }
+    })
+
   }
 
   handleStatusClick(e) {
       this.setState({ status: e.target.id })
       axios.patch('/api/movies', ['status', e.target.id, this.props.note.id])
         .then(() => console.log(e.target.id, ' changed on the server'))
+        .then(() => this.props.reload())
         .catch(err => console.log(err));
   }
 
   handleEdit(e) {
     let edit = prompt('enter your edit');
-    if (edit.length !== 0) {
+    if (edit.length !== 0 || edit === undefined || edit === null) {
       axios.patch('api/movies', [e.target.id, edit, this.props.note.id])
         .then(() => console.log(e.target.id, ' changed on server'))
+        .then(() => this.props.reload())
         .catch(() => console.log(err));
     }
   }
@@ -39,7 +49,8 @@ class Note extends React.Component {
   render() {
     return (
       <div className="noteView">
-        <h1 onClick={this.onNoteClick}>Note #{this.props.note.id}</h1>
+        <h2 onClick={(e) => this.onNoteClick(e)}>Note #{this.props.note.id}</h2>
+        <span>View Count: {this.props.note.notecount}</span>
           {this.state.noteClicked ?
             <div>
               <div className="noteViewTitle">
@@ -55,6 +66,9 @@ class Note extends React.Component {
                     </button>
                     <button className="status" id="starred" onClick={(e) => this.handleStatusClick(e)}>
                       starred
+                    </button>
+                    <button className="status" id="none" onClick={(e) => this.handleStatusClick(e)}>
+                      reset
                     </button>
                    </div>
                   </div>

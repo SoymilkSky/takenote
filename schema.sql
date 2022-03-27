@@ -6,6 +6,7 @@ USE takenote;
 
 CREATE TABLE notes (
   id int NOT NULL AUTO_INCREMENT,
+  notecount INT DEFAULT 0,
   title varchar(255) NOT NULL,
   category varchar(255) NOT NULL,
   tagline varchar(255) NOT NULL,

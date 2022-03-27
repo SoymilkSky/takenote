@@ -28,7 +28,8 @@ class Notes extends React.Component {
           <div>
             {this.props.notes
                   .filter(note => note.title.includes(this.state.query))
-                  .map(note => <NoteView key={note.id} note={note}/>)}
+                  .sort((a, b) => b.notecount - a.notecount)
+                  .map(note => <NoteView key={note.id} note={note} reload={this.props.reload}/>)}
             <button onClick={() => this.setState({searchedState : !this.state.searchedState, query: ''})}>go back</button>
           </div>
           :
@@ -41,14 +42,14 @@ class Notes extends React.Component {
             <button onClick={() => this.setState({ showHidden: !this.state.showHidden })}>
               {this.state.showHidden ? "Hide Hidden Notes" : "Show Hidden Notes"}
             </button>
-            <h2>Starred Notes</h2>
-            {this.props.notes.filter(note => note.status === 'Starred').map(note => <NoteView key={note.id} note={note} />)}
-            <h2>Notes</h2>
-            {this.props.notes.filter(note => note.status === 'None').map(note => <NoteView key={note.id} note={note} />)}
+            <h1>Starred Notes</h1>
+            {this.props.notes.filter(note => note.status === 'Starred').sort((a, b) => b.notecount - a.notecount).map(note => <NoteView key={note.id} note={note} reload={this.props.reload}/>)}
+            <h1>Notes</h1>
+            {this.props.notes.filter(note => note.status === 'None').sort((a, b) => b.notecount - a.notecount).map(note => <NoteView key={note.id} note={note} reload={this.props.reload}/>)}
             {this.state.showHidden ?
               <div>
-                <h2>Hidden Notes</h2>
-                {this.props.notes.filter(note => note.status === 'Hidden').map(note => <NoteView key={note.id} note={note} />)}
+                <h1>Hidden Notes</h1>
+                {this.props.notes.filter(note => note.status === 'Hidden').sort((a, b) => b.notecount - a.notecount).map(note => <NoteView key={note.id} note={note} reload={this.props.reload}/>)}
               </div>
             : null}
           </div>}
